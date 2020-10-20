@@ -5,6 +5,8 @@ const regexHeader = /<head>\X*<\/head>/
 const regexOgImage = /<meta.*property="og:image".*content="(.*)".*\/?>/g
 const regexAllMeta = /<meta.*\/?>/g
 
+const regex = regexAllMeta
+
 const url = 'https://www.youtube.com/watch?v=3g3xmJXGVAU'
 
 const req = https.get(url, (res) => {
@@ -18,10 +20,10 @@ const req = https.get(url, (res) => {
   res.on('end', () => {
     let m
 
-    while ((m = regexOgImage.exec(str)) !== null) {
+    while ((m = regex.exec(str)) !== null) {
       // This is necessary to avoid infinite loops with zero-width matches
-      if (m.index === regexOgImage.lastIndex) {
-        regexOgImage.lastIndex++
+      if (m.index === regex.lastIndex) {
+        regex.lastIndex++
       }
 
       // The result can be accessed through the `m`-variable.
